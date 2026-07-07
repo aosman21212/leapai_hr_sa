@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ══ LIST ══════════════════════════════════════════════════════════ -->
+    <record id="view_hr_warning_list" model="ir.ui.view">
+        <field name="name">hr.warning.list</field>
+        <field name="model">hr.warning</field>
+        <field name="arch" type="xml">
+            <list string="Disciplinary Warnings"
+                  decoration-danger="warning_type == 'final'"
+                  decoration-warning="warning_type == 'written'"
+                  decoration-info="warning_type == 'verbal'">
+                <field name="name"/>
+                <field name="employee_id"/>
+                <field name="department_id" optional="show"/>
+                <field name="warning_type" widget="badge"
+                       decoration-danger="warning_type == 'final'"
+                       decoration-warning="warning_type == 'written'"
+                       decoration-info="warning_type == 'verbal'"/>
+                <field name="date"/>
+                <field name="reason"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'acknowledged'"
+                       decoration-warning="state == 'confirmed'"
+                       decoration-muted="state == 'draft'"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- ══ FORM ══════════════════════════════════════════════════════════ -->
+    <record id="view_hr_warning_form" model="ir.ui.view">
+        <field name="name">hr.warning.form</field>
+        <field name="model">hr.warning</field>
+        <field name="arch" type="xml">
+            <form string="Disciplinary Warning">
+                <header>
+                    <button name="action_confirm" string="Issue Warning" type="object"
+                            invisible="state != 'draft'"
+                            class="btn-primary"/>
+                    <button name="action_acknowledge" string="Mark Acknowledged" type="object"
+                            invisible="state != 'confirmed'"/>
+                    <button name="action_reset_draft" string="Reset to Draft" type="object"
+                            invisible="state != 'acknowledged'"
+                            groups="leapai_hr_sa.group_hr_sa_manager"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,confirmed,acknowledged"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                            <span class="ms-2">
+                                <field name="warning_type" widget="badge"
+                                       decoration-danger="warning_type == 'final'"
+                                       decoration-warning="warning_type == 'written'"
+                                       decoration-info="warning_type == 'verbal'"/>
+                            </span>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="employee_id"/>
+                            <field name="department_id" readonly="1"/>
+                            <field name="hr_responsible_id"/>
+                        </group>
+                        <group>
+                            <field name="warning_type"/>
+                            <field name="date"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <group string="Details">
+                        <field name="reason" nolabel="1" placeholder="Describe the reason for this warning..."/>
+                    </group>
+                    <group string="Employee Comment" invisible="state == 'draft'">
+                        <field name="employee_comment" nolabel="1"
+                               placeholder="Employee's response or acknowledgement..."/>
+                    </group>
+                    <field name="attachment_ids" widget="many2many_binary"/>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- ══ ACTION ════════════════════════════════════════════════════════ -->
+    <record id="action_hr_warning" model="ir.actions.act_window">
+        <field name="name">Disciplinary Warnings</field>
+        <field name="res_model">hr.warning</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No disciplinary records yet</p>
+            <p>Issue verbal, written, and final warnings to employees with a full audit trail.</p>
+        </field>
+    </record>
+
+</odoo>

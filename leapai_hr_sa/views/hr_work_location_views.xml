@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ══ LIST ══════════════════════════════════════════════════════════ -->
+    <record id="view_hr_work_location_sa_list" model="ir.ui.view">
+        <field name="name">hr.work.location.sa.list</field>
+        <field name="model">hr.work.location.sa</field>
+        <field name="arch" type="xml">
+            <list string="GPS Work Locations">
+                <field name="name"/>
+                <field name="address" optional="show"/>
+                <field name="latitude"/>
+                <field name="longitude"/>
+                <field name="radius"/>
+                <field name="employee_count" string="Employees"/>
+                <field name="active" optional="show"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- ══ FORM ══════════════════════════════════════════════════════════ -->
+    <record id="view_hr_work_location_sa_form" model="ir.ui.view">
+        <field name="name">hr.work.location.sa.form</field>
+        <field name="model">hr.work.location.sa</field>
+        <field name="arch" type="xml">
+            <form string="GPS Work Location">
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group string="Location Details">
+                            <field name="address"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="active"/>
+                        </group>
+                        <group string="GPS Coordinates">
+                            <field name="latitude"/>
+                            <field name="longitude"/>
+                            <field name="radius"/>
+                        </group>
+                    </group>
+                    <!-- Interactive GPS map: pin + geofence circle -->
+                    <widget name="gps_map"/>
+
+                    <div class="alert alert-info" role="alert">
+                        <i class="fa fa-info-circle"/> Employees assigned to this location
+                        must check in within <strong><field name="radius" nolabel="1"/></strong> meters
+                        of coordinates <strong><field name="latitude" nolabel="1"/>, <field name="longitude" nolabel="1"/></strong>.
+                    </div>
+                    <field name="employee_ids" readonly="1">
+                        <list>
+                            <field name="name"/>
+                            <field name="job_id"/>
+                            <field name="department_id"/>
+                        </list>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ══ ACTION ════════════════════════════════════════════════════════ -->
+    <record id="action_hr_work_location_sa" model="ir.actions.act_window">
+        <field name="name">GPS Work Locations</field>
+        <field name="res_model">hr.work.location.sa</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Add a GPS Work Location</p>
+            <p>Define geofenced work sites. Employees' attendance will be validated
+               against these coordinates.</p>
+        </field>
+    </record>
+
+</odoo>

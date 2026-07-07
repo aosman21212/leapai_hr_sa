@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ══════════════════════════════════════════════════════════════════
+         Extend Employee Form — add "Saudi HR" tab + smart buttons
+         ══════════════════════════════════════════════════════════════════ -->
+    <record id="view_employee_form_hr_sa" model="ir.ui.view">
+        <field name="name">hr.employee.form.hr_sa</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+
+            <!-- Smart buttons -->
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_loans"
+                        class="oe_stat_button" icon="fa-money"
+                        type="object"
+                        groups="leapai_hr_sa.group_hr_sa_user">
+                    <field name="loan_count" widget="statinfo" string="Loans"/>
+                </button>
+                <button name="action_view_documents"
+                        class="oe_stat_button" icon="fa-id-card"
+                        type="object"
+                        groups="leapai_hr_sa.group_hr_sa_user">
+                    <field name="document_count" widget="statinfo" string="Documents"/>
+                </button>
+                <button name="action_view_warnings"
+                        class="oe_stat_button" icon="fa-exclamation-triangle"
+                        type="object"
+                        groups="leapai_hr_sa.group_hr_sa_user">
+                    <field name="warning_count" widget="statinfo" string="Warnings"/>
+                </button>
+                <button name="action_view_assets"
+                        class="oe_stat_button" icon="fa-laptop"
+                        type="object"
+                        groups="leapai_hr_sa.group_hr_sa_user">
+                    <field name="asset_count" widget="statinfo" string="Assets"/>
+                </button>
+            </xpath>
+
+            <!-- New Saudi HR tab -->
+            <xpath expr="//notebook" position="inside">
+                <page name="saudi_hr" string="🇸🇦 Saudi HR" groups="leapai_hr_sa.group_hr_sa_user">
+
+                    <group string="Nationality &amp; GOSI">
+                        <group>
+                            <field name="nationality_type" widget="radio"/>
+                            <field name="gosi_number"/>
+                            <field name="gosi_employee_rate" readonly="1"/>
+                            <field name="gosi_employer_rate" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="bank_name"/>
+                            <field name="bank_account_number"/>
+                            <field name="work_location_sa_id"/>
+                        </group>
+                    </group>
+
+                    <group string="Official Documents">
+                        <group>
+                            <field name="national_id"/>
+                            <field name="national_id_expiry"/>
+                            <field name="passport_number"/>
+                            <field name="passport_expiry"/>
+                        </group>
+                        <group>
+                            <field name="driving_license_number"/>
+                            <field name="driving_license_expiry"/>
+                        </group>
+                    </group>
+
+                    <group string="End of Service (EOS) — Auto Calculated">
+                        <group>
+                            <field name="eos_years_of_service" readonly="1"/>
+                            <field name="eos_entitlement_days" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="eos_monthly_provision" readonly="1"/>
+                        </group>
+                    </group>
+
+                </page>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,33 @@
+/* GPS Map Widget — hr.work.location.sa form view */
+
+.o_gps_map_wrapper {
+    position: relative;
+    margin: 12px 0;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #dee2e6;
+    background: #f8f9fa;
+}
+
+.o_gps_map_container {
+    height: 360px;
+    width: 100%;
+    border-radius: 8px;
+    z-index: 0;            /* keep map below Odoo dropdowns */
+}
+
+.o_gps_map_placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #f8f9fa;
+    pointer-events: none;
+}
+
+/* Ensure Leaflet popup stays above the form chrome */
+.leaflet-popup {
+    z-index: 400;
+}

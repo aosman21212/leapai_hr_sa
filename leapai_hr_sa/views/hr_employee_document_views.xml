@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ══ LIST ══════════════════════════════════════════════════════════ -->
+    <record id="view_hr_employee_document_list" model="ir.ui.view">
+        <field name="name">hr.employee.document.list</field>
+        <field name="model">hr.employee.document</field>
+        <field name="arch" type="xml">
+            <list string="Employee Documents"
+                  decoration-danger="state == 'expired'"
+                  decoration-warning="state == 'expiring_soon'"
+                  decoration-success="state == 'valid'">
+                <field name="employee_id"/>
+                <field name="document_type"/>
+                <field name="document_number" optional="show"/>
+                <field name="issue_date" optional="show"/>
+                <field name="expiry_date"/>
+                <field name="days_remaining"/>
+                <field name="state" widget="badge"
+                       decoration-danger="state == 'expired'"
+                       decoration-warning="state == 'expiring_soon'"
+                       decoration-success="state == 'valid'"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- ══ FORM ══════════════════════════════════════════════════════════ -->
+    <record id="view_hr_employee_document_form" model="ir.ui.view">
+        <field name="name">hr.employee.document.form</field>
+        <field name="model">hr.employee.document</field>
+        <field name="arch" type="xml">
+            <form string="Employee Document">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="document_type"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="employee_id"/>
+                            <field name="document_name"/>
+                            <field name="document_number"/>
+                        </group>
+                        <group>
+                            <field name="issue_date"/>
+                            <field name="expiry_date"/>
+                            <field name="days_remaining" readonly="1"/>
+                            <field name="state" widget="badge"
+                                   decoration-danger="state == 'expired'"
+                                   decoration-warning="state == 'expiring_soon'"
+                                   decoration-success="state == 'valid'"/>
+                        </group>
+                    </group>
+                    <field name="notes" placeholder="Notes..."/>
+                    <field name="attachment_ids" widget="many2many_binary"/>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- ══ ACTION ════════════════════════════════════════════════════════ -->
+    <record id="action_hr_employee_document" model="ir.actions.act_window">
+        <field name="name">Employee Documents</field>
+        <field name="res_model">hr.employee.document</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Track Employee Documents</p>
+            <p>Manage Iqama, Passport, Driving License, and other document expiry dates.
+               Automated alerts will be sent at 30, 15, and 7 days before expiry.</p>
+        </field>
+    </record>
+
+    <!-- Expiring soon shortcut -->
+    <record id="action_hr_document_expiring" model="ir.actions.act_window">
+        <field name="name">Expiring Documents</field>
+        <field name="res_model">hr.employee.document</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('state', 'in', ['expiring_soon', 'expired'])]</field>
+        <field name="context">{'search_default_expiring': 1}</field>
+    </record>
+
+</odoo>

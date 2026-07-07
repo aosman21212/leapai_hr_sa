@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ══ LIST ══════════════════════════════════════════════════════════ -->
+    <record id="view_hr_asset_allocation_list" model="ir.ui.view">
+        <field name="name">hr.asset.allocation.list</field>
+        <field name="model">hr.asset.allocation</field>
+        <field name="arch" type="xml">
+            <list string="Asset Allocations"
+                  decoration-muted="state == 'returned'"
+                  decoration-danger="state == 'lost'">
+                <field name="name"/>
+                <field name="employee_id"/>
+                <field name="department_id" optional="show"/>
+                <field name="asset_type" widget="badge"/>
+                <field name="serial_number" optional="show"/>
+                <field name="model_number" optional="show"/>
+                <field name="allocation_date"/>
+                <field name="return_date" optional="show"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'allocated'"
+                       decoration-muted="state == 'returned'"
+                       decoration-danger="state == 'lost'"/>
+                <button name="action_return" string="Return"
+                        type="object" icon="fa-undo"
+                        invisible="state != 'allocated'"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- ══ FORM ══════════════════════════════════════════════════════════ -->
+    <record id="view_hr_asset_allocation_form" model="ir.ui.view">
+        <field name="name">hr.asset.allocation.form</field>
+        <field name="model">hr.asset.allocation</field>
+        <field name="arch" type="xml">
+            <form string="Asset Allocation">
+                <header>
+                    <button name="action_return" string="Mark Returned" type="object"
+                            invisible="state != 'allocated'" class="btn-primary"/>
+                    <button name="action_mark_lost" string="Mark Lost/Damaged" type="object"
+                            invisible="state != 'allocated'"/>
+                    <button name="action_reallocate" string="Re-Allocate" type="object"
+                            invisible="state == 'allocated'"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="allocated,returned"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group string="Asset Info">
+                            <field name="name"/>
+                            <field name="asset_type"/>
+                            <field name="serial_number"/>
+                            <field name="model_number"/>
+                        </group>
+                        <group string="Allocation">
+                            <field name="employee_id"/>
+                            <field name="department_id" readonly="1"/>
+                            <field name="allocation_date"/>
+                            <field name="return_date" readonly="1"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <field name="notes" placeholder="Notes..."/>
+                    <field name="attachment_ids" widget="many2many_binary"/>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- ══ ACTION ════════════════════════════════════════════════════════ -->
+    <record id="action_hr_asset_allocation" model="ir.actions.act_window">
+        <field name="name">Asset Allocations</field>
+        <field name="res_model">hr.asset.allocation</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No assets allocated yet</p>
+            <p>Track company assets (laptops, phones, vehicles, SIM cards) assigned to employees.</p>
+        </field>
+    </record>
+
+</odoo>

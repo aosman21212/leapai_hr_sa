@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ══════════════════════════════════════════════════════════════════
+         TOP-LEVEL APP on the Odoo Home Screen
+         ══════════════════════════════════════════════════════════════════ -->
+    <menuitem
+        id="menu_hr_sa_root"
+        name="HR Saudi Arabia"
+        web_icon="leapai_hr_sa,static/description/icon.png"
+        sequence="20"
+        groups="leapai_hr_sa.group_hr_sa_user"/>
+
+    <!-- ── Employees ──────────────────────────────────────────────────── -->
+    <menuitem
+        id="menu_hr_sa_employees"
+        name="Employees"
+        parent="menu_hr_sa_root"
+        sequence="10"
+        groups="leapai_hr_sa.group_hr_sa_user"/>
+
+    <menuitem
+        id="menu_hr_sa_employees_list"
+        name="All Employees"
+        parent="menu_hr_sa_employees"
+        action="hr.open_view_employee_list_my"
+        sequence="10"
+        groups="leapai_hr_sa.group_hr_sa_user"/>
+
+    <!-- ── Loans & Advances ───────────────────────────────────────────── -->
+    <menuitem
+        id="menu_hr_sa_loans"
+        name="Loans &amp; Advances"
+        parent="menu_hr_sa_root"
+        sequence="20"
+        groups="leapai_hr_sa.group_hr_sa_user"/>
+
+    <menuitem
+        id="menu_hr_sa_loans_all"
+        name="All Loans"
+        parent="menu_hr_sa_loans"
+        action="action_hr_loan"
+        sequence="10"
+        groups="leapai_hr_sa.group_hr_sa_manager"/>
+
+    <menuitem
+        id="menu_hr_sa_loans_my"
+        name="My Loans"
+        parent="menu_hr_sa_loans"
+        action="action_hr_loan_my"
+        sequence="20"
+        groups="leapai_hr_sa.group_hr_sa_user"/>
+
+    <!-- ── Documents ──────────────────────────────────────────────────── -->
+    <menuitem
+        id="menu_hr_sa_documents"
+        name="Documents"
+        parent="menu_hr_sa_root"
+        sequence="30"
+        groups="leapai_hr_sa.group_hr_sa_user"/>
+
+    <menuitem
+        id="menu_hr_sa_documents_all"
+        name="All Documents"
+        parent="menu_hr_sa_documents"
+        action="action_hr_employee_document"
+        sequence="10"
+        groups="leapai_hr_sa.group_hr_sa_user"/>
+
+    <menuitem
+        id="menu_hr_sa_documents_expiring"
+        name="⚠️ Expiring Soon"
+        parent="menu_hr_sa_documents"
+        action="action_hr_document_expiring"
+        sequence="20"
+        groups="leapai_hr_sa.group_hr_sa_user"/>
+
+    <!-- ── Warnings ───────────────────────────────────────────────────── -->
+    <menuitem
+        id="menu_hr_sa_warnings"
+        name="Disciplinary"
+        parent="menu_hr_sa_root"
+        sequence="40"
+        groups="leapai_hr_sa.group_hr_sa_manager"/>
+
+    <menuitem
+        id="menu_hr_sa_warnings_list"
+        name="Warnings"
+        parent="menu_hr_sa_warnings"
+        action="action_hr_warning"
+        sequence="10"
+        groups="leapai_hr_sa.group_hr_sa_manager"/>
+
+    <!-- ── Assets ─────────────────────────────────────────────────────── -->
+    <menuitem
+        id="menu_hr_sa_assets"
+        name="Assets"
+        parent="menu_hr_sa_root"
+        sequence="50"
+        groups="leapai_hr_sa.group_hr_sa_user"/>
+
+    <menuitem
+        id="menu_hr_sa_assets_list"
+        name="Asset Allocations"
+        parent="menu_hr_sa_assets"
+        action="action_hr_asset_allocation"
+        sequence="10"
+        groups="leapai_hr_sa.group_hr_sa_user"/>
+
+    <!-- ── Attendance ─────────────────────────────────────────────────── -->
+    <menuitem
+        id="menu_hr_sa_attendance"
+        name="Attendance"
+        parent="menu_hr_sa_root"
+        sequence="60"
+        groups="leapai_hr_sa.group_hr_sa_user"/>
+
+    <menuitem
+        id="menu_hr_sa_attendance_list"
+        name="Attendance Records"
+        parent="menu_hr_sa_attendance"
+        action="hr_attendance.hr_attendance_action"
+        sequence="10"
+        groups="leapai_hr_sa.group_hr_sa_user"/>
+
+    <menuitem
+        id="menu_hr_sa_gps_locations"
+        name="GPS Work Locations"
+        parent="menu_hr_sa_attendance"
+        action="action_hr_work_location_sa"
+        sequence="20"
+        groups="leapai_hr_sa.group_hr_sa_manager"/>
+
+    <!-- ── Payroll ───────────────────────────────────────────────────── -->
+    <menuitem
+        id="menu_hr_sa_payroll"
+        name="Payroll"
+        parent="menu_hr_sa_root"
+        sequence="70"
+        groups="leapai_hr_sa.group_hr_sa_manager"/>
+
+    <menuitem
+        id="menu_hr_sa_payroll_generate"
+        name="💰 Pay Salary — All Employees"
+        parent="menu_hr_sa_payroll"
+        action="action_hr_sa_payroll_wizard"
+        sequence="10"
+        groups="leapai_hr_sa.group_hr_sa_manager"/>
+
+    <menuitem
+        id="menu_hr_sa_payroll_runs"
+        name="Pay Runs"
+        parent="menu_hr_sa_payroll"
+        action="action_hr_sa_payslip_run"
+        sequence="20"
+        groups="leapai_hr_sa.group_hr_sa_manager"/>
+
+    <menuitem
+        id="menu_hr_sa_payslips"
+        name="Payslips"
+        parent="menu_hr_sa_payroll"
+        action="action_hr_sa_payslip"
+        sequence="30"
+        groups="leapai_hr_sa.group_hr_sa_manager"/>
+
+    <!-- ── Configuration ──────────────────────────────────────────────── -->
+    <menuitem
+        id="menu_hr_sa_config"
+        name="Configuration"
+        parent="menu_hr_sa_root"
+        sequence="100"
+        groups="leapai_hr_sa.group_hr_sa_manager"/>
+
+    <menuitem
+        id="menu_hr_sa_config_locations"
+        name="GPS Work Locations"
+        parent="menu_hr_sa_config"
+        action="action_hr_work_location_sa"
+        sequence="10"
+        groups="leapai_hr_sa.group_hr_sa_manager"/>
+
+</odoo>

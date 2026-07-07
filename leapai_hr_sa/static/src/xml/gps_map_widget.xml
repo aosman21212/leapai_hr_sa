@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+    <t t-name="leapai_hr_sa.GpsMapWidget">
+        <div class="o_gps_map_wrapper">
+            <div t-ref="gps_map" class="o_gps_map_container"></div>
+            <t t-if="!hasCoords">
+                <div class="o_gps_map_placeholder">
+                    <i class="fa fa-map-marker fa-2x text-muted"/>
+                    <p class="text-muted mt-2">Enter latitude and longitude to display the map.</p>
+                </div>
+            </t>
+        </div>
+    </t>
+</templates>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Extend Attendance List to show GPS columns -->
+    <record id="view_attendance_list_hr_sa" model="ir.ui.view">
+        <field name="name">hr.attendance.list.hr_sa</field>
+        <field name="model">hr.attendance</field>
+        <field name="inherit_id" ref="hr_attendance.view_attendance_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='worked_hours']" position="after">
+                <field name="work_location_sa_id" optional="show" string="GPS Location"/>
+                <field name="within_geofence" optional="show" widget="boolean_toggle"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Extend Attendance Form to show GPS fields -->
+    <record id="view_attendance_form_hr_sa" model="ir.ui.view">
+        <field name="name">hr.attendance.form.hr_sa</field>
+        <field name="model">hr.attendance</field>
+        <field name="inherit_id" ref="hr_attendance.hr_attendance_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <group string="GPS Data" col="2">
+                    <group string="Check-In Location">
+                        <field name="check_in_latitude"/>
+                        <field name="check_in_longitude"/>
+                        <field name="check_in_location_name"/>
+                    </group>
+                    <group string="Check-Out Location">
+                        <field name="check_out_latitude"/>
+                        <field name="check_out_longitude"/>
+                        <field name="check_out_location_name"/>
+                    </group>
+                    <group string="Geofence">
+                        <field name="work_location_sa_id" readonly="1"/>
+                        <field name="within_geofence" readonly="1" widget="boolean_toggle"/>
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,20 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hr_loan_user,hr.loan user,model_hr_loan,leapai_hr_sa.group_hr_sa_user,1,1,1,0
+access_hr_loan_manager,hr.loan manager,model_hr_loan,leapai_hr_sa.group_hr_sa_manager,1,1,1,1
+access_hr_loan_line_user,hr.loan.line user,model_hr_loan_line,leapai_hr_sa.group_hr_sa_user,1,1,1,0
+access_hr_loan_line_manager,hr.loan.line manager,model_hr_loan_line,leapai_hr_sa.group_hr_sa_manager,1,1,1,1
+access_hr_employee_document_user,hr.employee.document user,model_hr_employee_document,leapai_hr_sa.group_hr_sa_user,1,1,1,0
+access_hr_employee_document_manager,hr.employee.document manager,model_hr_employee_document,leapai_hr_sa.group_hr_sa_manager,1,1,1,1
+access_hr_warning_user,hr.warning user,model_hr_warning,leapai_hr_sa.group_hr_sa_user,1,1,1,0
+access_hr_warning_manager,hr.warning manager,model_hr_warning,leapai_hr_sa.group_hr_sa_manager,1,1,1,1
+access_hr_asset_allocation_user,hr.asset.allocation user,model_hr_asset_allocation,leapai_hr_sa.group_hr_sa_user,1,1,1,0
+access_hr_asset_allocation_manager,hr.asset.allocation manager,model_hr_asset_allocation,leapai_hr_sa.group_hr_sa_manager,1,1,1,1
+access_hr_work_location_sa_user,hr.work.location.sa user,model_hr_work_location_sa,leapai_hr_sa.group_hr_sa_user,1,0,0,0
+access_hr_work_location_sa_manager,hr.work.location.sa manager,model_hr_work_location_sa,leapai_hr_sa.group_hr_sa_manager,1,1,1,1
+access_hr_sa_payroll_wizard_manager,hr.sa.payroll.wizard manager,model_hr_sa_payroll_wizard,leapai_hr_sa.group_hr_sa_manager,1,1,1,1
+access_hr_payroll_structure_type_manager,hr.payroll.structure.type manager,hr_payroll.model_hr_payroll_structure_type,leapai_hr_sa.group_hr_sa_manager,1,0,0,0
+access_hr_payroll_structure_manager,hr.payroll.structure manager,hr_payroll.model_hr_payroll_structure,leapai_hr_sa.group_hr_sa_manager,1,0,0,0
+access_hr_payslip_run_manager,hr.payslip.run manager,hr_payroll.model_hr_payslip_run,leapai_hr_sa.group_hr_sa_manager,1,1,1,1
+access_hr_payslip_manager,hr.payslip manager,hr_payroll.model_hr_payslip,leapai_hr_sa.group_hr_sa_manager,1,1,1,1
+access_hr_payslip_line_manager,hr.payslip.line manager,hr_payroll.model_hr_payslip_line,leapai_hr_sa.group_hr_sa_manager,1,0,0,0
+access_hr_salary_rule_manager,hr.salary.rule manager,hr_payroll.model_hr_salary_rule,leapai_hr_sa.group_hr_sa_manager,1,0,0,0

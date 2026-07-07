@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- ══════════════════════════════════════════════════════════════════
+             SAUDI SALARY STRUCTURE TYPE
+             ══════════════════════════════════════════════════════════════════ -->
+        <record id="structure_type_sa_employee" model="hr.payroll.structure.type">
+            <field name="name">Saudi Employee</field>
+            <field name="default_schedule_pay">monthly</field>
+            <field name="country_id" ref="base.sa"/>
+        </record>
+
+        <!-- ══════════════════════════════════════════════════════════════════
+             SAUDI SALARY STRUCTURE
+             ══════════════════════════════════════════════════════════════════ -->
+        <record id="structure_sa_basic" model="hr.payroll.structure">
+            <field name="name">Saudi Monthly Salary</field>
+            <field name="type_id" ref="structure_type_sa_employee"/>
+            <field name="use_worked_day_lines">False</field>
+            <field name="payslip_name">Salary Slip</field>
+        </record>
+
+        <!-- ── Set as default structure for the type ─────────────────────── -->
+        <record id="structure_type_sa_employee" model="hr.payroll.structure.type">
+            <field name="default_struct_id" ref="structure_sa_basic"/>
+        </record>
+
+        <!-- ══════════════════════════════════════════════════════════════════
+             SALARY RULES
+             ══════════════════════════════════════════════════════════════════ -->
+
+        <!-- 1. Basic Salary ─────────────────────────────────────────────── -->
+        <record id="rule_sa_basic" model="hr.salary.rule">
+            <field name="struct_id" ref="structure_sa_basic"/>
+            <field name="category_id" ref="hr_payroll.BASIC"/>
+            <field name="name">Basic Salary</field>
+            <field name="sequence">1</field>
+            <field name="code">BASIC</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = payslip.paid_amount</field>
+        </record>
+
+        <!-- 2. Housing Allowance ────────────────────────────────────────── -->
+        <record id="rule_sa_housing" model="hr.salary.rule">
+            <field name="struct_id" ref="structure_sa_basic"/>
+            <field name="category_id" ref="hr_payroll.ALW"/>
+            <field name="name">Housing Allowance (HRA)</field>
+            <field name="sequence">10</field>
+            <field name="code">HRA</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = 'HRA' in inputs</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = inputs['HRA'].amount</field>
+        </record>
+
+        <!-- 3. Transport Allowance ──────────────────────────────────────── -->
+        <record id="rule_sa_transport" model="hr.salary.rule">
+            <field name="struct_id" ref="structure_sa_basic"/>
+            <field name="category_id" ref="hr_payroll.ALW"/>
+            <field name="name">Transport Allowance</field>
+            <field name="sequence">20</field>
+            <field name="code">TRANS</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = 'TRANS' in inputs</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = inputs['TRANS'].amount</field>
+        </record>
+
+        <!-- 4. Other Allowances ─────────────────────────────────────────── -->
+        <record id="rule_sa_other_alw" model="hr.salary.rule">
+            <field name="struct_id" ref="structure_sa_basic"/>
+            <field name="category_id" ref="hr_payroll.ALW"/>
+            <field name="name">Other Allowances</field>
+            <field name="sequence">30</field>
+            <field name="code">OALW</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = 'OALW' in inputs</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = inputs['OALW'].amount</field>
+        </record>
+
+        <!-- 5. Gross Salary ─────────────────────────────────────────────── -->
+        <record id="rule_sa_gross" model="hr.salary.rule">
+            <field name="struct_id" ref="structure_sa_basic"/>
+            <field name="category_id" ref="hr_payroll.GROSS"/>
+            <field name="name">Gross Salary</field>
+            <field name="sequence">100</field>
+            <field name="code">GROSS</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = categories['BASIC'] + categories['ALW']</field>
+        </record>
+
+        <!-- 6. GOSI Employee Deduction ──────────────────────────────────── -->
+        <record id="rule_sa_gosi_emp" model="hr.salary.rule">
+            <field name="struct_id" ref="structure_sa_basic"/>
+            <field name="category_id" ref="hr_payroll.DED"/>
+            <field name="name">GOSI Employee Contribution</field>
+            <field name="sequence">150</field>
+            <field name="code">GOSI_EMP</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"># GOSI: Saudi nationals 9.75%, Non-Saudi 0%
+result = -(categories['GROSS'] * employee.gosi_employee_rate / 100)</field>
+        </record>
+
+        <!-- 7. GOSI Employer Contribution (informational — company side) ── -->
+        <record id="rule_sa_gosi_employer" model="hr.salary.rule">
+            <field name="struct_id" ref="structure_sa_basic"/>
+            <field name="category_id" ref="hr_payroll.COMP"/>
+            <field name="name">GOSI Employer Contribution</field>
+            <field name="sequence">155</field>
+            <field name="code">GOSI_COMP</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"># GOSI Employer: Saudi nationals 9.75%, Non-Saudi 2%
+result = categories['GROSS'] * employee.gosi_employer_rate / 100</field>
+        </record>
+
+        <!-- 8. Loan Installment Deduction ──────────────────────────────── -->
+        <record id="rule_sa_loan_ded" model="hr.salary.rule">
+            <field name="struct_id" ref="structure_sa_basic"/>
+            <field name="category_id" ref="hr_payroll.DED"/>
+            <field name="name">Loan Installment</field>
+            <field name="sequence">160</field>
+            <field name="code">LOAN_DED</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">approved_loans = employee.loan_ids.filtered(lambda l: l.state == 'approved')
+result = bool([line for loan in approved_loans for line in loan.loan_line_ids if not line.paid])</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">today = date.today()
+approved_loans = employee.loan_ids.filtered(lambda l: l.state == 'approved')
+monthly = sum(line.amount for loan in approved_loans for line in loan.loan_line_ids if not line.paid and line.date and line.date.month == today.month and line.date.year == today.year)
+result = -monthly</field>
+        </record>
+
+        <!-- 9. EOS Monthly Provision (informational — employer side) ────── -->
+        <record id="rule_sa_eos_provision" model="hr.salary.rule">
+            <field name="struct_id" ref="structure_sa_basic"/>
+            <field name="category_id" ref="hr_payroll.COMP"/>
+            <field name="name">EOS Monthly Provision</field>
+            <field name="sequence">165</field>
+            <field name="code">EOS_PROV</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = employee.eos_monthly_provision</field>
+        </record>
+
+        <!-- 10. Net Salary ──────────────────────────────────────────────── -->
+        <record id="rule_sa_net" model="hr.salary.rule">
+            <field name="struct_id" ref="structure_sa_basic"/>
+            <field name="category_id" ref="hr_payroll.NET"/>
+            <field name="name">Net Salary</field>
+            <field name="sequence">200</field>
+            <field name="code">NET</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = categories['GROSS'] + categories['DED']</field>
+        </record>
+
+    </data>
+</odoo>

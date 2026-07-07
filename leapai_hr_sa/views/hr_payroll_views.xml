@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ══ Pay All Employees Wizard ══════════════════════════════════════════ -->
+    <record id="view_hr_sa_payroll_wizard_form" model="ir.ui.view">
+        <field name="name">hr.sa.payroll.wizard.form</field>
+        <field name="model">hr.sa.payroll.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Generate Salary Pay Run">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>Pay Salary — All Employees</h1>
+                        <p class="text-muted">
+                            Creates a payslip run for all active employees and
+                            calculates their net salary including GOSI and loan deductions.
+                        </p>
+                    </div>
+
+                    <group string="Pay Period">
+                        <group>
+                            <field name="date_start"/>
+                            <field name="date_end"/>
+                        </group>
+                        <group>
+                            <field name="structure_id"/>
+                        </group>
+                    </group>
+
+                    <group string="Employee Filter (optional)">
+                        <group>
+                            <field name="department_id"/>
+                        </group>
+                        <group>
+                            <field name="employee_ids" widget="many2many_tags"/>
+                        </group>
+                    </group>
+
+                    <div class="alert alert-info" role="alert">
+                        <strong>How it works:</strong>
+                        <ul>
+                            <li>Leave employee filter empty to process <strong>all active employees</strong>.</li>
+                            <li>GOSI deductions are automatically calculated (9.75% Saudi / 0% Non-Saudi).</li>
+                            <li>Loan installments due this month are automatically deducted.</li>
+                            <li>After generation, you can review, correct and validate each payslip.</li>
+                        </ul>
+                    </div>
+                </sheet>
+                <footer>
+                    <button name="action_generate" string="Generate Pay Run" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- ══ Action: Open Wizard ═══════════════════════════════════════════════ -->
+    <record id="action_hr_sa_payroll_wizard" model="ir.actions.act_window">
+        <field name="name">Pay Salary — All Employees</field>
+        <field name="res_model">hr.sa.payroll.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- ══ Action: Pay Runs (Batch) ══════════════════════════════════════════ -->
+    <record id="action_hr_sa_payslip_run" model="ir.actions.act_window">
+        <field name="name">Pay Runs</field>
+        <field name="res_model">hr.payslip.run</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('company_id', '=', allowed_company_ids[0])]</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No Pay Runs Yet</p>
+            <p>Use "Pay Salary — All Employees" to generate a monthly pay run.</p>
+        </field>
+    </record>
+
+    <!-- ══ Action: Individual Payslips ═══════════════════════════════════════ -->
+    <record id="action_hr_sa_payslip" model="ir.actions.act_window">
+        <field name="name">Payslips</field>
+        <field name="res_model">hr.payslip</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('company_id', '=', allowed_company_ids[0])]</field>
+    </record>
+
+</odoo>
