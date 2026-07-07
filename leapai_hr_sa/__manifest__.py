@@ -27,6 +27,15 @@ Website : https://leapai.ai/
     """,
     'author': 'LeapAI',
     'website': 'https://leapai.ai/',
+    'images': [
+        'static/description/banner.png',
+        'static/description/screenshot_home.png',
+        'static/description/screenshot_employee.png',
+        'static/description/screenshot_payroll.png',
+        'static/description/screenshot_loans.png',
+        'static/description/screenshot_documents.png',
+        'static/description/screenshot_gps.png',
+    ],
     'support': 'a.osman@bab.com.sa',
     'depends': [
         'hr',
