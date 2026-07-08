@@ -25,7 +25,7 @@ Email   : abdzoro89@gmail.com | a.osman@bab.com.sa
 Phone   : +966 562 984 106 | +966 553 368 212
 Website : https://leapai.ai/
     """,
-    'author': 'LeapAI',
+    'author': 'leapai.ai',
     'website': 'https://leapai.ai/',
     'images': [
         'static/description/banner.png',
