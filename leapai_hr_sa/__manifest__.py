@@ -1,3 +1,15 @@
+# -*- coding: utf-8 -*-
+# =============================================================================
+#  HR Saudi Arabia
+# -----------------------------------------------------------------------------
+#  Location  : King Abdulaziz Branch Road, Riyadh, Saudi Arabia
+#  Email     : sales@leapai.ai
+#  Phone     : +966 53 553 3627
+#  Website   : https://leapai.ai
+#  Developer : Abdulkaraim Osman — Tech Manager | Backend Engineer | DevOps Engineer
+#              at Bab International Corp For Specialized Services
+#  LinkedIn  : https://www.linkedin.com/in/abdulkaraim-o-385b7a110/
+# =============================================================================
 {
     'name': 'HR Saudi Arabia',
     'version': '19.0.1.0.0',
@@ -26,6 +38,8 @@ Phone   : +966 562 984 106 | +966 553 368 212
 Website : https://leapai.ai/
     """,
     'author': 'leapai.ai',
+    'maintainer': 'Abdulkaraim Osman',
+    'support': 'sales@leapai.ai',
     'website': 'https://leapai.ai/',
     'images': [
         'static/description/banner.png',
@@ -36,7 +50,6 @@ Website : https://leapai.ai/
         'static/description/screenshot_documents.png',
         'static/description/screenshot_gps.png',
     ],
-    'support': 'a.osman@bab.com.sa',
     'depends': [
         'hr',
         'hr_attendance',
